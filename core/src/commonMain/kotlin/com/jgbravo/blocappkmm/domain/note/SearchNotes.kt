@@ -2,7 +2,7 @@ package com.jgbravo.blocappkmm.domain.note
 
 import com.jgbravo.blocappkmm.domain.time.DateTimeUtil
 
-class SearchNote {
+class SearchNotes {
 
     operator fun invoke(notes: List<Note>, query: String): List<Note> {
         if (query.isBlank()) {
