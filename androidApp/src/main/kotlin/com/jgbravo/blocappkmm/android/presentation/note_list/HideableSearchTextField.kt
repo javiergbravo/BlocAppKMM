@@ -51,7 +51,7 @@ fun HideableSearchTextField(
             exit = fadeOut(),
             modifier = Modifier.align(Alignment.CenterEnd)
         ) {
-            IconButton(onClick = onCloseClick) {
+            IconButton(onClick = onSearchClick) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Close search"

@@ -5,4 +5,5 @@ object Colors {
     const val RedPinkHex = 0xFFF48FB1
     const val BabyBlueHex = 0xFFCF94DA
     const val LightGreenHex = 0xFFE7ED9B
+    const val White = 0xFFFFFFFF
 }
