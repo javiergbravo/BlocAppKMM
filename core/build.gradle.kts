@@ -1,12 +1,12 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("com.squareup.sqldelight")
+    kotlin(Plugin.multiplatform)
+    id(Plugin.androidLibrary)
+    id(Plugin.sqlDelight)
 }
 
 kotlin {
     android()
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -20,8 +20,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:runtime:1.5.4")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation(Lib.Library.sqldelight)
+                implementation(Lib.Library.kotlinDatetime)
             }
         }
         val commonTest by getting {
@@ -31,7 +31,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:android-driver:1.5.4")
+                implementation(Lib.Library.Android.sqldelightAndroidDriver)
             }
         }
         val androidTest by getting
@@ -40,7 +40,7 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependencies {
-                implementation("com.squareup.sqldelight:native-driver:1.5.4")
+                implementation(Lib.Library.iOS.sqldelightNativeDriver)
             }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
@@ -61,16 +61,16 @@ kotlin {
 
 sqldelight {
     database("NoteDatabase") {
-        packageName = "com.jgbravo.blocappkmm.database"
+        packageName = "${ProjectConfig.appPackage}.database"
         sourceFolders = listOf("sqldelight")
     }
 }
 
 android {
-    namespace = "com.jgbravo.blocappkmm"
-    compileSdk = 33
+    namespace = ProjectConfig.appPackage
+    compileSdk = ProjectConfig.Android.compileSdk
     defaultConfig {
-        minSdk = 28
-        targetSdk = 33
+        minSdk = ProjectConfig.Android.minSdk
+        targetSdk = ProjectConfig.Android.targetSdk
     }
 }
