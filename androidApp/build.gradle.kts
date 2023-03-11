@@ -1,19 +1,19 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    id(Plugin.androidApplication)
+    kotlin(Plugin.android)
+    id(Plugin.kapt)
+    id(Plugin.daggerHilt)
 }
 
 android {
-    namespace = "com.jgbravo.blocappkmm.android"
-    compileSdk = 33
+    namespace = ProjectConfig.Android.appId
+    compileSdk = ProjectConfig.Android.compileSdk
     defaultConfig {
-        applicationId = "com.jgbravo.blocappkmm.android"
-        minSdk = 28
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = ProjectConfig.Android.appId
+        minSdk = ProjectConfig.Android.minSdk
+        targetSdk = ProjectConfig.Android.targetSdk
+        versionCode = ProjectConfig.Android.versionCode
+        versionName = ProjectConfig.Android.versionName
     }
     buildFeatures {
         compose = true
@@ -22,7 +22,7 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0"
+        kotlinCompilerExtensionVersion = Lib.Version.Android.composeUi
     }
     packagingOptions {
         resources {
@@ -38,19 +38,21 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation("androidx.compose.ui:ui:1.3.0")
-    implementation("androidx.compose.ui:ui-tooling:1.3.0")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.3.0")
-    implementation("androidx.compose.foundation:foundation:1.3.0")
-    implementation("androidx.compose.material:material:1.3.0")
-    implementation("androidx.activity:activity-compose:1.6.1")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation(Lib.Library.Android.composeUi)
+    implementation(Lib.Library.Android.composeUiTooling)
+    implementation(Lib.Library.Android.composeUiToolingPreview)
+    implementation(Lib.Library.Android.composeFoundation)
+    implementation(Lib.Library.Android.composeMaterial)
+    implementation(Lib.Library.Android.composeActivity)
+    implementation(Lib.Library.Android.composeNavigation)
+    implementation(Lib.Library.Android.hilt)
+    implementation(Lib.Library.Android.hiltNavigationCompose)
 
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation(Lib.Library.kotlinDatetime)
+
+    coreLibraryDesugaring(Lib.Library.Android.desugar)
+
+    kapt(Lib.Compiler.daggerHilt)
+    kapt(Lib.Compiler.hilt)
 }
