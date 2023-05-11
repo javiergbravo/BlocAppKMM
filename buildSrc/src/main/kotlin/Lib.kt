@@ -1,7 +1,7 @@
 object Lib {
 
     object Version {
-        internal const val sqldelight = "1.5.4"
+        internal const val sqldelight = "1.5.5"
         internal const val kotlinxDatetime = "0.4.0"
 
         object Android {
