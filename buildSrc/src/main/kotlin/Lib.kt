@@ -10,7 +10,7 @@ object Lib {
             internal const val composeNavigation = "2.5.3"
             internal const val hilt = "2.44"
             internal const val hiltNaviCompiler = "1.0.0"
-            internal const val desugar = "1.1.5"
+            internal const val desugar = "1.2.3"
         }
     }
 
