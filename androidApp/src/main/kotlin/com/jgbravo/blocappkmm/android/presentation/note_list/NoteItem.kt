@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jgbravo.blocappkmm.domain.note.Note
@@ -76,4 +77,21 @@ fun NoteItem(
         )
 
     }
+}
+
+@Preview
+@Composable
+fun NoteItemPreview() {
+    NoteItem(
+        note = Note(
+            id = 1L,
+            title = "Title",
+            content = "Content",
+            colorHex = Note.generateRandomColor(),
+            created = DateTimeUtil.now()
+        ),
+        backgroundColor = Color.White,
+        onNoteClick = {},
+        onDeleteClick = {}
+    )
 }
