@@ -84,7 +84,7 @@ fun NoteItem(
 fun NoteItemPreview() {
     NoteItem(
         note = Note(
-            id = 1L,
+            id = null,
             title = "Title",
             content = "Content",
             colorHex = Note.generateRandomColor(),

@@ -12,9 +12,7 @@ import com.jgbravo.blocappkmm.android.navigation.Router
 import com.jgbravo.blocappkmm.android.presentation.note_details.NoteDetailsScreen
 import com.jgbravo.blocappkmm.android.presentation.note_details.NoteDetailsViewModel
 import com.jgbravo.blocappkmm.android.presentation.note_list.NoteListScreen
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +26,12 @@ class MainActivity : ComponentActivity() {
                     route = "${Router.NoteDetails.SCREEN}/{${Router.NoteDetails.Args.NOTE_ID}}",
                     arguments = listOf(
                         navArgument(name = NoteDetailsViewModel.KEY_NOTE_ID) {
-                            type = NavType.LongType
-                            defaultValue = -1L
+                            type = NavType.StringType
+                            defaultValue = ""
                         }
                     )
                 ) { backStackEntry ->
-                    val noteId = backStackEntry.arguments?.getLong(NoteDetailsViewModel.KEY_NOTE_ID) ?: -1L
+                    val noteId = backStackEntry.arguments?.getString(NoteDetailsViewModel.KEY_NOTE_ID) ?: ""
                     NoteDetailsScreen(noteId = noteId, navController = navController)
                 }
             }

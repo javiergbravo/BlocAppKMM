@@ -3,19 +3,16 @@ package com.jgbravo.blocappkmm.android.presentation.note_list
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jgbravo.blocappkmm.data.NoteRepository
 import com.jgbravo.blocappkmm.domain.note.Note
-import com.jgbravo.blocappkmm.domain.note.NoteDataSource
 import com.jgbravo.blocappkmm.domain.note.SearchNotes
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NoteListViewModel @Inject constructor(
-    private val noteDataSource: NoteDataSource,
+class NoteListViewModel(
+    private val noteRepository: NoteRepository,
     private val savedStateHandle: SavedStateHandle,
     private val searchNotes: SearchNotes
 ) : ViewModel() {
@@ -56,7 +53,7 @@ class NoteListViewModel @Inject constructor(
 
     fun loadNotes() {
         viewModelScope.launch {
-            savedStateHandle[KEY_SH_NOTES] = noteDataSource.getAllNotes()
+            savedStateHandle[KEY_SH_NOTES] = noteRepository.getAllNotes()
         }
     }
 
@@ -71,9 +68,9 @@ class NoteListViewModel @Inject constructor(
         }
     }
 
-    fun deleteNoteById(id: Long) {
+    fun deleteNoteById(id: String) {
         viewModelScope.launch {
-            noteDataSource.deleteNoteById(id)
+            noteRepository.deleteNoteById(id)
             loadNotes()
         }
     }

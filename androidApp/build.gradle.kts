@@ -1,8 +1,7 @@
 plugins {
     id(Plugin.androidApplication)
     kotlin(Plugin.android)
-    id(Plugin.kapt)
-    id(Plugin.daggerHilt)
+    id(Plugin.realm)
 }
 
 android {
@@ -19,12 +18,16 @@ android {
         compose = true
     }
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Lib.Version.Android.composeUi
+        kotlinCompilerExtensionVersion = Lib.Version.Android.composeCompiler
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -36,6 +39,12 @@ android {
     }
 }
 
+tasks.withType(type = org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask::class) {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+
+}
+
+
 dependencies {
     implementation(project(":core"))
 
@@ -46,13 +55,13 @@ dependencies {
     implementation(Lib.Library.Android.composeMaterial)
     implementation(Lib.Library.Android.composeActivity)
     implementation(Lib.Library.Android.composeNavigation)
-    implementation(Lib.Library.Android.hilt)
-    implementation(Lib.Library.Android.hiltNavigationCompose)
+
+    implementation(Lib.Library.koin)
+    implementation(Lib.Library.Android.koin)
+    implementation(Lib.Library.Android.koinCompose)
+
+    implementation(Lib.Library.realm)
+    compileOnly(Lib.Library.realm)
 
     implementation(Lib.Library.kotlinDatetime)
-
-    coreLibraryDesugaring(Lib.Library.Android.desugar)
-
-    kapt(Lib.Compiler.daggerHilt)
-    kapt(Lib.Compiler.hilt)
 }

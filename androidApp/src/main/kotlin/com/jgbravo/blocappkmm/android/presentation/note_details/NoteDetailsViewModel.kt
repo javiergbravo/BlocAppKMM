@@ -3,21 +3,18 @@ package com.jgbravo.blocappkmm.android.presentation.note_details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jgbravo.blocappkmm.data.NoteRepository
 import com.jgbravo.blocappkmm.domain.note.Note
-import com.jgbravo.blocappkmm.domain.note.NoteDataSource
 import com.jgbravo.blocappkmm.domain.time.DateTimeUtil
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class NoteDetailsViewModel @Inject constructor(
-    private val noteDataSource: NoteDataSource,
+class NoteDetailsViewModel(
+    private val noteRepository: NoteRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -57,16 +54,13 @@ class NoteDetailsViewModel @Inject constructor(
     private val _hasNoteBeenSaved = MutableStateFlow(false)
     val hasNoteBeenSaved = _hasNoteBeenSaved.asStateFlow()
 
-    private var existingNoteId: Long? = null
+    private var existingNoteId: String? = null
 
     init {
-        savedStateHandle.get<Long>(KEY_NOTE_ID)?.let { existingNoteId ->
-            if (existingNoteId == -1L) {
-                return@let
-            }
+        savedStateHandle.get<String>(KEY_NOTE_ID)?.let { existingNoteId ->
             this.existingNoteId = existingNoteId
             viewModelScope.launch {
-                noteDataSource.getNoteById(existingNoteId)?.let { note ->
+                noteRepository.getNoteById(existingNoteId)?.let { note ->
                     savedStateHandle[KEY_NOTE_TITLE] = note.title
                     savedStateHandle[KEY_NOTE_CONTENT] = note.content
                     savedStateHandle[KEY_NOTE_COLOR] = note.colorHex
@@ -93,9 +87,9 @@ class NoteDetailsViewModel @Inject constructor(
 
     fun saveNote() {
         viewModelScope.launch {
-            noteDataSource.insertNote(
+            noteRepository.insertNote(
                 Note(
-                    id = existingNoteId,
+                    id = null,
                     title = noteTitle.value,
                     content = noteContent.value,
                     colorHex = noteColor.value,

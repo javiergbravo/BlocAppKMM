@@ -1,11 +1,11 @@
 plugins {
     kotlin(Plugin.multiplatform)
     id(Plugin.androidLibrary)
-    id(Plugin.sqlDelight)
+    id(Plugin.realm)
 }
 
 kotlin {
-    android()
+    androidTarget()
 
     listOf(
         iosX64(),
@@ -20,8 +20,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Lib.Library.sqldelight)
+                implementation(Lib.Library.realm)
                 implementation(Lib.Library.kotlinDatetime)
+                implementation(Lib.Library.koin)
             }
         }
         val commonTest by getting {
@@ -30,18 +31,12 @@ kotlin {
             }
         }
         val androidMain by getting {
-            dependencies {
-                implementation(Lib.Library.Android.sqldelightAndroidDriver)
-            }
         }
-        val androidTest by getting
+        val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
-            dependencies {
-                implementation(Lib.Library.iOS.sqldelightNativeDriver)
-            }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -59,13 +54,6 @@ kotlin {
     }
 }
 
-sqldelight {
-    database("NoteDatabase") {
-        packageName = "${ProjectConfig.appPackage}.database"
-        sourceFolders = listOf("sqldelight")
-    }
-}
-
 android {
     namespace = ProjectConfig.appPackage
     compileSdk = ProjectConfig.Android.compileSdk
@@ -73,4 +61,14 @@ android {
         minSdk = ProjectConfig.Android.minSdk
         targetSdk = ProjectConfig.Android.targetSdk
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+tasks.withType(type = org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask::class) {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+
 }

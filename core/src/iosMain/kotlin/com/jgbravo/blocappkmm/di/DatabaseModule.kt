@@ -1,14 +1,18 @@
 package com.jgbravo.blocappkmm.di
 
-import com.jgbravo.blocappkmm.data.local.DatabaseDriverFactory
-import com.jgbravo.blocappkmm.data.note.SqlDelightNoteDataSource
-import com.jgbravo.blocappkmm.database.NoteDatabase
-import com.jgbravo.blocappkmm.domain.note.NoteDataSource
+import com.jgbravo.blocappkmm.data.NoteRepository
+import com.jgbravo.blocappkmm.data.NoteRepositoryImpl
+import com.jgbravo.blocappkmm.data.local.NoteDataSource
+import com.jgbravo.blocappkmm.data.local.realm.DataBaseRealm
+import com.jgbravo.blocappkmm.data.local.realm.NoteRealmDataSource
 
-class DatabaseModule {
+object DatabaseModule {
 
-    private val factory by lazy { DatabaseDriverFactory() }
-    val noteDataSource: NoteDataSource by lazy {
-        SqlDelightNoteDataSource(NoteDatabase(factory.createDriver()))
+    private val noteDataSource: NoteDataSource by lazy {
+        NoteRealmDataSource(DataBaseRealm.openRealm())
+    }
+
+    val noteRepository: NoteRepository by lazy {
+        NoteRepositoryImpl(noteDataSource)
     }
 }
