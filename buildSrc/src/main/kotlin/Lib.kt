@@ -8,7 +8,7 @@ object Lib {
             const val composeUi = "1.3.0"
             internal const val composeActivity = "1.6.1"
             internal const val composeNavigation = "2.5.3"
-            internal const val hilt = "2.44"
+            internal const val hilt = "2.52"
             internal const val hiltNaviCompiler = "1.0.0"
             internal const val desugar = "1.1.5"
         }
