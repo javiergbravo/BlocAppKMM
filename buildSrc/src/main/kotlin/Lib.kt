@@ -5,7 +5,7 @@ object Lib {
         internal const val kotlinxDatetime = "0.4.0"
 
         object Android {
-            const val composeUi = "1.3.0"
+            const val composeUi = "1.7.4"
             internal const val composeActivity = "1.6.1"
             internal const val composeNavigation = "2.5.3"
             internal const val hilt = "2.44"
