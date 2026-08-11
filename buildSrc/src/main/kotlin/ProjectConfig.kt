@@ -15,7 +15,7 @@ object ProjectConfig {
     }
 
     object Version {
-        const val kotlin = "1.7.10"
+        const val kotlin = "1.9.25"
         const val multiplatform = kotlin
         internal const val android = "7.2.2"
         internal const val sqlDelight = "1.5.4"
